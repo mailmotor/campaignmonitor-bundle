@@ -4,3 +4,4 @@ services:
         class: MailMotor\Bundle\CampaignMonitorBundle\Gateway\CampaignMonitorSubscriberGateway
         arguments:
             - "%mailmotor.api_key%"
+            - "%mailmotor.list_id%"

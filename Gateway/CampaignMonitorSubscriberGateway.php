@@ -3,6 +3,7 @@
 namespace MailMotor\Bundle\CampaignMonitorBundle\Gateway;
 
 use MailMotor\Bundle\MailMotorBundle\Gateway\SubscriberGateway;
+use MailMotor\Bundle\MailMotorBundle\Helper\Subscriber;
 
 /**
  * CampaignMonitor Subscriber Gateway
@@ -14,25 +15,34 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
     /**
      * The external CreateSend API for CampaignMonitor
      *
-     * @var \CS_REST_General
+     * @var \CS_REST_Subscribers
      */
     protected $api;
+
+    /**
+     * @var string
+     */
+    protected $listId;
 
     /**
      * Construct
      *
      * @param string $apiKey
+     * @param string $listId
      */
     public function __construct(
-        $apiKey
+        $apiKey,
+        $listId
     ) {
-        // We require the CreateSend API
-        require_once(__DIR__ . '/../../../campaignmonitor/createsend-php/CS_REST_General.php');
+        $this->listId = $listId;
 
         // Define API
-        $this->api = new \CS_REST_General(array(
-            'api_key' => $apiKey,
-        ));
+        $this->api = new \CS_REST_Subscribers(
+            $listId,
+            array(
+                'api_key' => $apiKey,
+            )
+        );
     }
 
     /**
@@ -47,7 +57,13 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
         $listId
     ) {
         try {
-            // todo
+            // Will set list id when it's different then the default listId
+            $this->setListId($listId);
+
+            /** @var \CS_REST_Wrapper_Result $result A successful response will be empty */
+            $result = $this->api->get($email);
+
+            return $result->response;
         } catch (\Exception $e) {
             return false;
         }
@@ -100,7 +116,27 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
         $listId,
         $status
     ) {
-        // todo
+        try {
+            // Will set list id when it's different then the default listId
+            $this->setListId($listId);
+
+            /** @var \CS_REST_Wrapper_Result $result A successful response will be empty */
+            $result = $this->api->get($email);
+
+            switch ($status) {
+                case Subscriber::MEMBER_STATUS_UNSUBSCRIBED:
+                    return (in_array($result->response->State, array('Unsubscribed', 'Unconfirmed')));
+                    break;
+                case Subscriber::MEMBER_STATUS_SUBSCRIBED:
+                    return ($result->response->State === 'Subscribed');
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**
@@ -122,6 +158,9 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
         $interests,
         $doubleOptin
     ) {
+        // Will set list id when it's different then the default listId
+        $this->setListId($listId);
+
         // Define name
         $name = array_key_exists('FNAME', $mergeFields) ? $mergeFields['FNAME'] : '';
 
@@ -137,10 +176,7 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
             ];
         }
 
-        // Set list id
-        $this->api->set_list_id($listId);
-
-        /** @var CS_REST_Wrapper_Result $result A successful response will be empty */
+        /** @var \CS_REST_Wrapper_Result $result A successful response will be empty */
         $result = $this->api->add(array(
             'EmailAddress' => $email,
             'Name' => $name,
@@ -163,6 +199,26 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
         $email,
         $listId
     ) {
-        // todo
+        // Will set list id when it's different then the default listId
+        $this->setListId($listId);
+
+        /** @var \CS_REST_Wrapper_Result $result A successful response will be empty */
+        $result = $this->api->unsubscribe($email);
+
+        return $result->was_successful();
+    }
+
+    /**
+     * Set list id
+     *
+     * @var string $listId
+     */
+    private function setListId($listId)
+    {
+        // We only set the list id, when another list id is given
+        if ($listId !== $this->listId) {
+            // Set list id
+            $this->api->set_list_id($listId);
+        }
     }
 }
