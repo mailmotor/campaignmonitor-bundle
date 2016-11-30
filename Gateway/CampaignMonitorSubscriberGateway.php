@@ -5,16 +5,16 @@ namespace MailMotor\Bundle\CampaignMonitorBundle\Gateway;
 use MailMotor\Bundle\MailMotorBundle\Gateway\SubscriberGateway;
 
 /**
- * MailChimp Subscriber Gateway
+ * CampaignMonitor Subscriber Gateway
  *
  * @author Jeroen Desloovere <info@jeroendesloovere.be>
  */
-class MailChimpSubscriberGateway implements SubscriberGateway
+class CampaignMonitorSubscriberGateway implements SubscriberGateway
 {
     /**
      * The external CreateSend API for CampaignMonitor
      *
-     * @var CS_REST_General
+     * @var \CS_REST_General
      */
     protected $api;
 
@@ -27,10 +27,10 @@ class MailChimpSubscriberGateway implements SubscriberGateway
         $apiKey
     ) {
         // We require the CreateSend API
-        require_once(__DIR__ . '/vendor/campaignmonitor/createsend-php/CS_REST_General.php');
+        require_once(__DIR__ . '/../../../campaignmonitor/createsend-php/CS_REST_General.php');
 
         // Define API
-        $this->api = new CS_REST_General(array(
+        $this->api = new \CS_REST_General(array(
             'api_key' => $apiKey,
         ));
     }
@@ -47,15 +47,7 @@ class MailChimpSubscriberGateway implements SubscriberGateway
         $listId
     ) {
         try {
-            /** @var Illuminate\Support\Collection $result */
-            $result = $this->api->request(
-                'lists/' . $listId . '/members/' . $this->getEmailHash($email),
-                array(),
-                'get'
-            );
-
-            // will return the one and only member array('id', ...) from Illuminate\Support\Collection
-            return $result->all();
+            // todo
         } catch (\Exception $e) {
             return false;
         }
@@ -71,41 +63,7 @@ class MailChimpSubscriberGateway implements SubscriberGateway
         $listId
     ) {
         try {
-            /** @var Illuminate\Support\Collection $result */
-            $interestCategories = $this->api->request(
-                'lists/' . $listId . '/interest-categories',
-                array(),
-                'get'
-            );
-
-            // Init $interests
-            $interests = array();
-
-            // Loop all interest categories
-            foreach ($interestCategories->all()['categories'] as $interestCategory) {
-                // Define interestCategoryItems
-                $interestCategoryItems = $this->getInterestsForCategoryId(
-                    $interestCategory->id,
-                    $listId
-                );
-
-                // Init children
-                $children = array();
-
-                // Loop interests
-                foreach ($interestCategoryItems['interests'] as $interestCategoryItem) {
-                    // Add child to interestCategory children
-                    $children[$interestCategoryItem->id] = $interestCategoryItem->name;
-                }
-
-                // Add interestCategory to interests
-                $interests[$interestCategory->id] = [
-                    'title' => $interestCategory->title,
-                    'children' => $children,
-                ];
-            }
-
-            return $interests;
+           // todo
         } catch (\Exception $e) {
             return false;
         }
@@ -123,15 +81,7 @@ class MailChimpSubscriberGateway implements SubscriberGateway
         $listId
     ) {
         try {
-            /** @var Illuminate\Support\Collection $result */
-            $result = $this->api->request(
-                'lists/' . $listId . '/interest-categories/' . $interestCategoryId . '/interests',
-                array(),
-                'get'
-            );
-
-            // will return the one and only member array('id', ...) from Illuminate\Support\Collection
-            return $result->all();
+            // todo
         } catch (\Exception $e) {
             return false;
         }
@@ -150,18 +100,7 @@ class MailChimpSubscriberGateway implements SubscriberGateway
         $listId,
         $status
     ) {
-        $member = $this->get(
-            $email,
-            $listId
-        );
-
-        // we have found a member
-        if (is_array($member)) {
-            return ($member['status'] === $status);
-        }
-
-        // we don't have a member
-        return false;
+        // todo
     }
 
     /**
@@ -183,51 +122,34 @@ class MailChimpSubscriberGateway implements SubscriberGateway
         $interests,
         $doubleOptin
     ) {
-        // default status
-        $status = 'subscribed';
+        // Define name
+        $name = array_key_exists('FNAME', $mergeFields) ? $mergeFields['FNAME'] : '';
 
-        // redefine to pending
-        if ($doubleOptin) {
-            $status = 'pending';
+        // Init custom fields
+        $customFields = array();
+
+        // Loop all merge fields
+        foreach ($mergeFields as $key => $value) {
+            // Add custom field
+            $customFields[] = [
+                'Key' => $key,
+                'Value' => $value,
+            ];
         }
 
-        // init parameters
-        $parameters = array(
-            'email_address' => $email,
-            'status' => $status,
-        );
+        // Set list id
+        $this->api->set_list_id($listId);
 
-        // we received a language
-        if ($language !== null) {
-            // add language to parameters
-            $parameters['language'] = $language;
-        }
+        /** @var CS_REST_Wrapper_Result $result A successful response will be empty */
+        $result = $this->api->add(array(
+            'EmailAddress' => $email,
+            'Name' => $name,
+            'CustomFields' => $customFields,
+            'Resubscribe' => true,
+            'RestartSubscriptionBasedAutoResponders' => $doubleOptin,
+        ));
 
-        // we received merge fields
-        if (!empty($mergeFields)) {
-            // add merge fields to parameters
-            $parameters['merge_fields'] = $mergeFields;
-        }
-
-        // we received interests
-        if (!empty($interests)) {
-            // Init interest object
-            $interestsObject = new \stdClass();
-
-            // Loop interests
-            foreach ($interests as $id => $value) {
-                $interestsObject->{$id} = (bool) $value;
-            }
-
-            // Add interests to parameters
-            $parameters['interests'] = $interestsObject;
-        }
-
-        return $this->api->request(
-            'lists/' . $listId . '/members/' . $this->getEmailHash($email),
-            $parameters,
-            'put'
-        );
+        return $result->was_successful();
     }
 
     /**
@@ -241,23 +163,6 @@ class MailChimpSubscriberGateway implements SubscriberGateway
         $email,
         $listId
     ) {
-        return $this->api->request(
-            'lists/' . $listId . '/members/' . $this->getEmailHash($email),
-            array(
-                'status' => 'unsubscribed',
-            ),
-            'patch'
-        );
-    }
-
-    /**
-     * Get email hash
-     *
-     * @param string $email
-     * @return string
-     */
-    protected function getEmailHash($email)
-    {
-        return md5(strtolower($email));
+        // todo
     }
 }
