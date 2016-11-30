@@ -1,0 +1,6 @@
+services:
+    # gateways
+    mailmotor.campaignmonitor.subscriber.gateway:
+        class: MailMotor\Bundle\CampaignMonitorBundle\Gateway\CampaignMonitorSubscriberGateway
+        arguments:
+            - "%mailmotor.api_key%"

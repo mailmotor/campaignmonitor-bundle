@@ -1,0 +1,24 @@
+{
+    "name": "mailmotor/campaignmonitor-bundle",
+    "type": "library",
+    "description": "This Symfony2 bundle loads in CampaignMonitor as a service. So you can subscribe/unsubscribe members to CampaignMonitor.",
+    "keywords": ["symfony2", "bundle", "Campaign Monitor", "php"],
+    "homepage": "https://github.com/mailmotor/campaignmonitor-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jeroen Desloovere",
+            "email": "info@jeroendesloovere.be",
+            "homepage": "http://jeroendesloovere.be",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "campaignmonitor/createsend-php": "~5.0",
+        "mailmotor/mailmotor-bundle": "^1.8"
+    },
+    "autoload": {
+        "psr-4": { "MailMotor\\Bundle\\CampaignMonitorBundle\\": "" }
+    }
+}
