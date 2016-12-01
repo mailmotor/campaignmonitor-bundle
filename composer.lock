@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "496e0daf2398f92f8d12df0060d05e81",
-    "content-hash": "616fa05065c606e45fc24232fddafb99",
+    "hash": "2a3af8373c59c97937150c657e28993f",
+    "content-hash": "62734ca42da20dae8bb4de9cdfd8cb86",
     "packages": [
         {
             "name": "campaignmonitor/createsend-php",
@@ -66,16 +66,16 @@
         },
         {
             "name": "mailmotor/mailmotor-bundle",
-            "version": "1.8.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mailmotor/mailmotor-bundle.git",
-                "reference": "67711d025a6d36cca35553cbb4ccaf3af462f68b"
+                "reference": "2e9202ac3752291e7b94973e6d21c352634df07c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mailmotor/mailmotor-bundle/zipball/67711d025a6d36cca35553cbb4ccaf3af462f68b",
-                "reference": "67711d025a6d36cca35553cbb4ccaf3af462f68b",
+                "url": "https://api.github.com/repos/mailmotor/mailmotor-bundle/zipball/2e9202ac3752291e7b94973e6d21c352634df07c",
+                "reference": "2e9202ac3752291e7b94973e6d21c352634df07c",
                 "shasum": ""
             },
             "require": {
@@ -110,7 +110,7 @@
                 "bundle",
                 "php"
             ],
-            "time": "2016-11-22 14:42:52"
+            "time": "2016-12-01 07:53:26"
         },
         {
             "name": "psr/log",
