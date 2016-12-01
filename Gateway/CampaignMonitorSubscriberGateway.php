@@ -46,13 +46,13 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
     }
 
     /**
-     * Get a subscriber
+     * Exists
      *
      * @param string $email
      * @param string $listId
-     * @return array
+     * @return boolean
      */
-    public function get(
+    public function exists(
         $email,
         $listId
     ) {
@@ -63,7 +63,7 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
             /** @var \CS_REST_Wrapper_Result $result A successful response will be empty */
             $result = $this->api->get($email);
 
-            return $result->response;
+            return $result->was_successful();
         } catch (\Exception $e) {
             return false;
         }
@@ -78,29 +78,8 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
     public function getInterests(
         $listId
     ) {
-        try {
-           // todo
-        } catch (\Exception $e) {
-            return false;
-        }
-    }
-
-    /**
-     * Get interest category id
-     *
-     * @param string $interestCategoryId
-     * @param string $listId
-     * @return array
-     */
-    protected function getInterestsForCategoryId(
-        $interestCategoryId,
-        $listId
-    ) {
-        try {
-            // todo
-        } catch (\Exception $e) {
-            return false;
-        }
+        // Campaign monitor has no interests functionality
+        return array();
     }
 
     /**
