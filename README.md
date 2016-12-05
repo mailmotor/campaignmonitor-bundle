@@ -7,7 +7,7 @@
 ### Configure (CampaignMonitor)
 
 ```bash
-composer require mailmotor/mailchimp-bundle
+composer require mailmotor/campaignmonitor-bundle
 ```
 
 ```php
@@ -22,8 +22,8 @@ public function registerBundles()
 
 ```yaml
 mailmotor.mail_engine:  'campaignmonitor'
-mailmotor.api_key:      xxx # enter your mailchimp api_key here
-mailmotor.list_id:      xxx # enter the mailchimp default list_id here
+mailmotor.api_key:      xxx # enter your campaignmonitor api_key here
+mailmotor.list_id:      xxx # enter the campaignmonitor default list_id here
 ```
 
 ### Subscribing
@@ -156,7 +156,7 @@ mailmotor.api_key:      xxx # enter your crazy api_key here
 mailmotor.list_id:      xxx # enter the crazy default list_id here
 ```
 
-Then you just need to duplicate all files from another mail engine, like f.e.: "mailmotor/mailchimp-bundle" and replace all the logic for your own mail engine.
+Then you just need to duplicate all files from another mail engine, like f.e.: "mailmotor/campaignmonitor-bundle" and replace all the logic for your own mail engine.
 
 ## Credits
 
