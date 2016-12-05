@@ -104,10 +104,10 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
 
             switch ($status) {
                 case Subscriber::MEMBER_STATUS_UNSUBSCRIBED:
-                    return (in_array($result->response->State, array('Unsubscribed', 'Unconfirmed')));
+                    return (in_array($result->response->State, array('Unconfirmed', 'Unsubscribed', 'Bounced', 'Deleted')));
                     break;
                 case Subscriber::MEMBER_STATUS_SUBSCRIBED:
-                    return ($result->response->State === 'Subscribed');
+                    return ($result->response->State === 'Active');
                     break;
                 default:
                     return false;
