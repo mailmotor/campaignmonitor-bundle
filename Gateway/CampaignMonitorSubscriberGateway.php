@@ -102,6 +102,10 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
             /** @var \CS_REST_Wrapper_Result $result A successful response will be empty */
             $result = $this->api->get($email);
 
+            if (!property_exists($result->response, 'State')) {
+                return false;
+            }
+
             switch ($status) {
                 case Subscriber::MEMBER_STATUS_UNSUBSCRIBED:
                     return (in_array($result->response->State, array('Unconfirmed', 'Unsubscribed', 'Bounced', 'Deleted')));
