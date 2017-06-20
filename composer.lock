@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f6f7c84a51da8685e5f91afa69a14b95",
+    "content-hash": "8fb849c8f24b261e4b8a3373f0d61074",
     "packages": [
         {
             "name": "campaignmonitor/createsend-php",
@@ -66,20 +66,20 @@
         },
         {
             "name": "mailmotor/mailmotor-bundle",
-            "version": "2.0.2",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mailmotor/mailmotor-bundle.git",
-                "reference": "3bffaaa16bae289eca6b489fb1ba1b396946f397"
+                "reference": "305f7d12a320ce116bc9aece4dab9d62a3804a3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mailmotor/mailmotor-bundle/zipball/3bffaaa16bae289eca6b489fb1ba1b396946f397",
-                "reference": "3bffaaa16bae289eca6b489fb1ba1b396946f397",
+                "url": "https://api.github.com/repos/mailmotor/mailmotor-bundle/zipball/305f7d12a320ce116bc9aece4dab9d62a3804a3c",
+                "reference": "305f7d12a320ce116bc9aece4dab9d62a3804a3c",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3|^7.0",
+                "php": "^7.1",
                 "symfony/http-kernel": "^2.3|^3.0"
             },
             "require-dev": {
@@ -110,7 +110,7 @@
                 "php",
                 "symfony"
             ],
-            "time": "2017-03-20T10:17:51+00:00"
+            "time": "2017-06-20T14:38:49+00:00"
         },
         {
             "name": "psr/log",
