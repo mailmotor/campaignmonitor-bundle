@@ -12,16 +12,10 @@ use MailMotor\Bundle\MailMotorBundle\Helper\Subscriber;
  */
 class CampaignMonitorSubscriberGateway implements SubscriberGateway
 {
-    /**
-     * The external CreateSend API for CampaignMonitor
-     *
-     * @var \CS_REST_Subscribers
-     */
+    /** @var \CS_REST_Subscribers - The external CreateSend API for CampaignMonitor */
     protected $api;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $listId;
 
     public function __construct(string $apiKey, string $listId)
