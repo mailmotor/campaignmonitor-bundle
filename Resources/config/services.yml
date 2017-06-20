@@ -5,3 +5,5 @@ services:
         arguments:
             - "%mailmotor.api_key%"
             - "%mailmotor.list_id%"
+        tags:
+            - { name: mailmotor.subscriber_gateway, alias: campaignmonitor }
