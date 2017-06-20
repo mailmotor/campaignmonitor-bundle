@@ -24,16 +24,8 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
      */
     protected $listId;
 
-    /**
-     * Construct
-     *
-     * @param string $apiKey
-     * @param string $listId
-     */
-    public function __construct(
-        $apiKey,
-        $listId
-    ) {
+    public function __construct(string $apiKey, string $listId)
+    {
         $this->listId = $listId;
 
         // Define API
@@ -45,17 +37,8 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
         );
     }
 
-    /**
-     * Exists
-     *
-     * @param string $email
-     * @param string $listId
-     * @return boolean
-     */
-    public function exists(
-        $email,
-        $listId
-    ) {
+    public function exists(string $email, string $listId): bool
+    {
         try {
             // Will set list id when it's different then the default listId
             $this->setListId($listId);
@@ -69,32 +52,14 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
         }
     }
 
-    /**
-     * Get interests
-     *
-     * @param string $listId
-     * @return array
-     */
-    public function getInterests(
-        $listId
-    ) {
+    public function getInterests(string $listId): array
+    {
         // Campaign monitor has no interests functionality
         return array();
     }
 
-    /**
-     * Has status
-     *
-     * @param string $email
-     * @param string $listId
-     * @param string $status
-     * @return boolean
-     */
-    public function hasStatus(
-        $email,
-        $listId,
-        $status
-    ) {
+    public function hasStatus(string $email, string $listId, string $status): bool
+    {
         try {
             // Will set list id when it's different then the default listId
             $this->setListId($listId);
@@ -130,17 +95,17 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
      * @param string $language
      * @param array $mergeFields
      * @param array $interests The array is like: ['9AS489SQF' => true, '4SDF8S9DF1' => false]
-     * @param boolean $doubleOptin Members need to validate their emailAddress before they get added to the list
+     * @param bool $doubleOptin Members need to validate their emailAddress before they get added to the list
      * @return boolean
      */
     public function subscribe(
-        $email,
-        $listId,
-        $language,
-        $mergeFields,
-        $interests,
-        $doubleOptin
-    ) {
+        string $email,
+        string $listId,
+        string $language,
+        array $mergeFields,
+        array $interests,
+        bool $doubleOptin
+    ): bool {
         // Will set list id when it's different then the default listId
         $this->setListId($listId);
 
@@ -171,17 +136,8 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
         return $result->was_successful();
     }
 
-    /**
-     * Unsubscribe
-     *
-     * @param string $email
-     * @param string $listId
-     * @return boolean
-     */
-    public function unsubscribe(
-        $email,
-        $listId
-    ) {
+    public function unsubscribe(string $email, string $listId): bool
+    {
         // Will set list id when it's different then the default listId
         $this->setListId($listId);
 
@@ -191,12 +147,7 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
         return $result->was_successful();
     }
 
-    /**
-     * Set list id
-     *
-     * @var string $listId
-     */
-    private function setListId($listId)
+    private function setListId(string $listId): void
     {
         // We only set the list id, when another list id is given
         if ($listId !== $this->listId) {
