@@ -81,6 +81,21 @@ class CampaignMonitorSubscriberGateway implements SubscriberGateway
         }
     }
 
+    public function ping(string $listId): bool
+    {
+        try {
+            // Will set list id when it's different then the default listId
+            $this->setListId($listId);
+
+            /** @var \CS_REST_Wrapper_Result $result A successful response will be empty */
+            $result = $this->api->get('info@jeroendesloovere.be');
+
+            return $result->http_status_code !== 401;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
     /**
      * Subscribe
      *
