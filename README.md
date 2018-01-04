@@ -1,5 +1,10 @@
 # CampaignMonitorBundle
 
+[![Latest Stable Version](http://img.shields.io/packagist/v/mailmotor/campaignmonitor-bundle.svg)](https://packagist.org/packages/mailmotor/campaignmonitor-bundle)
+[![License](http://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/mailmotor/campaignmonitor-bundle/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/mailmotor/campaignmonitor-bundle.svg?branch=new-version)](https://travis-ci.org/mailmotor/campaignmonitor-bundle)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mailmotor/campaignmonitor-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mailmotor/campaignmonitor-bundle/?branch=master)
+
 > Subscribing/Unsubscribing to your own mailinglist has never been this easy! Thanks to this Symfony2 bundle.
 
 ## Examples
