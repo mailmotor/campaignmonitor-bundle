@@ -16,6 +16,7 @@ composer require mailmotor/campaignmonitor-bundle
 ```
 
 ```php
+// In `app/AppKernel.php`
 public function registerBundles()
 {
     $bundles = array(
@@ -26,6 +27,7 @@ public function registerBundles()
 ```
 
 ```yaml
+# In `app/config/config.yml`
 mailmotor.mail_engine:  'campaignmonitor'
 mailmotor.api_key:      xxx # enter your campaignmonitor api_key here
 mailmotor.list_id:      xxx # enter the campaignmonitor default list_id here
