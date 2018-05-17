@@ -7,7 +7,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 /**
  * MailMotor CampaignMonitor Bundle
  *
- * @author Jeroen Desloovere <jeroen@siesqo.be>
+ * @author Jeroen Desloovere <info@jeroendesloovere.be>
  */
 class MailMotorCampaignMonitorBundle extends Bundle
 {
