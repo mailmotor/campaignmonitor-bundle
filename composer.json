@@ -14,11 +14,14 @@
         }
     ],
     "require": {
-        "php": "^7.1",
-        "campaignmonitor/createsend-php": "~5.0",
-        "mailmotor/mailmotor-bundle": "^3.0"
+        "php": "^7.4||^8.0",
+        "campaignmonitor/createsend-php": "^7.0",
+        "mailmotor/mailmotor-bundle": "^4.0"
     },
     "autoload": {
         "psr-4": { "MailMotor\\Bundle\\CampaignMonitorBundle\\": "" }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
     }
 }
